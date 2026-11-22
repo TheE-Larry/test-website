@@ -6,59 +6,47 @@ const AGENCY_CONFIG = {
 
 // Portfolio Data for Lightbox & Details
 const portfolioData = {
-  "brand-lumina": {
-    title: "Lumina Fintech Identity",
-    category: "Brand Identity",
-    tag: "Fintech",
-    description: "A sleek, trustworthy visual identity system for a modern payments platform. Includes geometric logo icon, typography rules, brand guidelines, and app iconography.",
-    deliverables: "Logo System, Brand Book, App Icons",
-    timeline: "5 Days",
-    color: "#10b981"
+  "zuri-teaser": {
+    title: "Zuri Naturals: Clear Skin, Naturally",
+    category: "Campaigns",
+    image: "portfolio/zuri-teaser.jpeg",
+    description: "Skincare benefit post for Zuri Naturals: a close-up portrait with a leaf accent, a soft cream background and an elegant serif headline."
   },
-  "social-solaris": {
-    title: "Solaris Coffee Campaign",
+  "nigeria-66": {
+    title: "Nigeria @ 66: Independence Day",
     category: "Social Media",
-    tag: "Social Media",
-    description: "High-impact social media campaign for an artisan coffee roastery. Engineered to stop the scroll with appetizing color grading and bold typographic hierarchy.",
-    deliverables: "12 Feed Posts, 6 Story Templates",
-    timeline: "3 Days",
-    color: "#f59e0b"
+    image: "portfolio/nigeria-66.jpeg",
+    description: "Independence Day post that uses the number 66 as a window into a city skyline."
   },
-  "print-botanica": {
-    title: "Botanica Skincare Packaging",
-    category: "Print & Packaging",
-    tag: "Packaging",
-    description: "Minimalist, organic product packaging and unboxing experience for an organic skincare product line. Foil-stamped labels and matte paper craft boxes.",
-    deliverables: "Label Die-cuts, Outer Box, Finish Specs",
-    timeline: "7 Days",
-    color: "#06b6d4"
+  "zuri-countdown": {
+    title: "Zuri Naturals: 7-Day Countdown",
+    category: "Campaigns",
+    image: "portfolio/zuri-countdown.jpeg",
+    description: "Countdown post with a portrait cut into the numeral 7, building anticipation ahead of launch day."
   },
-  "brand-apex": {
-    title: "Apex Architectural Studio",
-    category: "Brand Identity",
-    tag: "Architecture",
-    description: "Monolithic, structured brand identity for a high-end luxury architectural studio in Abuja. Features architectural grid-inspired logo marks and corporate stationery.",
-    deliverables: "Logo Suite, Embossed Stationery, Signage",
-    timeline: "6 Days",
-    color: "#8b5cf6"
-  },
-  "social-cyberpulse": {
-    title: "CyberPulse Tech Festival",
+  "suzion-birthday": {
+    title: "Happy Birthday Suzion",
     category: "Social Media",
-    tag: "Event & Promo",
-    description: "Electric cyberpunk-inspired promotional flyer and motion-ready banner series for a major tech conference. Built to drive ticket sales across Instagram & Twitter.",
-    deliverables: "Event Posters, Speaker Announcements, Banners",
-    timeline: "4 Days",
-    color: "#ec4899"
+    image: "portfolio/suzion-birthday.jpeg",
+    description: "Birthday feature with glowing script typography and a layered purple background."
   },
-  "print-velvet": {
-    title: "Velvet Bistro Menu & Cards",
-    category: "Print & Packaging",
-    tag: "Hospitality",
-    description: "Tactile, sophisticated restaurant branding, foil-embossed menus, coasters, and business cards for a premium fine-dining bistro.",
-    deliverables: "Foil Menus, Business Cards, Bill Sleeves",
-    timeline: "4 Days",
-    color: "#e11d48"
+  "zuri-shea-butter": {
+    title: "Zuri Naturals: Shea Butter Product Ad",
+    category: "Campaigns",
+    image: "portfolio/zuri-shea-butter.jpeg",
+    description: "Product ad with a floating jar, a warm gold glow, and price and benefits laid out so they're easy to scan."
+  },
+  "kingdom-training": {
+    title: "Kingdom Content Creation Training",
+    category: "Events & Flyers",
+    image: "portfolio/kingdom-training.jpeg",
+    description: "Event flyer with the speaker lineup, price, start date and course outline organized in a clear hierarchy."
+  },
+  "zuri-brand-identity": {
+    title: "Zuri Naturals: Brand Identity",
+    category: "Brand Identity",
+    image: "portfolio/zuri-brand-identity.jpeg",
+    description: "Logo and jar packaging for Zuri Naturals, applied across its whole launch campaign."
   }
 };
 
@@ -70,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * FEATURE 1: Portfolio Category Filtering
+ * PORTFOLIO: Category Filtering
  */
 function initPortfolioFilters() {
   const filterButtons = document.querySelectorAll('.filter-btn');
@@ -103,7 +91,7 @@ function initPortfolioFilters() {
 }
 
 /**
- * FEATURE 1 (cont): Portfolio Lightbox Modal
+ * PORTFOLIO: Lightbox Modal
  */
 function initPortfolioLightbox() {
   const modal = document.getElementById('portfolioModal');
@@ -113,8 +101,6 @@ function initPortfolioLightbox() {
   const modalTitle = document.getElementById('modalTitle');
   const modalCategory = document.getElementById('modalCategory');
   const modalDesc = document.getElementById('modalDesc');
-  const modalDeliverables = document.getElementById('modalDeliverables');
-  const modalTimeline = document.getElementById('modalTimeline');
   const modalMedia = document.getElementById('modalMedia');
   const modalWhatsAppBtn = document.getElementById('modalWhatsAppBtn');
 
@@ -128,18 +114,12 @@ function initPortfolioLightbox() {
       modalTitle.textContent = data.title;
       modalCategory.textContent = data.category;
       modalDesc.textContent = data.description;
-      modalDeliverables.textContent = data.deliverables;
-      modalTimeline.textContent = data.timeline;
 
-      // Clone preview graphic into modal
-      const previewGraphic = card.querySelector('.card-preview').cloneNode(true);
-      const overlay = previewGraphic.querySelector('.preview-overlay');
-      if (overlay) overlay.remove();
-      modalMedia.innerHTML = '';
-      modalMedia.appendChild(previewGraphic);
+      // Show full uncropped image
+      modalMedia.innerHTML = `<img src="${data.image}" alt="${data.title}">`;
 
       // WhatsApp link customized to this specific project
-      const customMsg = encodeURIComponent(`Hi ${AGENCY_CONFIG.agencyName}, I saw your work on "${data.title}" and I would like something similar for my business.`);
+      const customMsg = encodeURIComponent(`Hello ${AGENCY_CONFIG.agencyName}, I saw your ${data.title} work and I'd like a similar design.`);
       modalWhatsAppBtn.href = `https://wa.me/${AGENCY_CONFIG.whatsappNumber}?text=${customMsg}`;
 
       // Show modal
@@ -170,7 +150,7 @@ function initPortfolioLightbox() {
 }
 
 /**
- * FEATURE 3: Pre-filled WhatsApp URLs for Packages
+ * Pre-filled WhatsApp URLs for Packages
  */
 function initWhatsAppDynamicLinks() {
   const packageButtons = document.querySelectorAll('[data-package-name]');
