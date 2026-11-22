@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initPortfolioFilters();
   initPortfolioLightbox();
   initWhatsAppDynamicLinks();
+  initNavShadow();
+  initReveal();
+  initCountUp();
 });
 
 /**
@@ -159,4 +162,50 @@ function initWhatsAppDynamicLinks() {
     const msg = encodeURIComponent(`Hello ${AGENCY_CONFIG.agencyName}, I would like to get started with the "${pkgName}" package.`);
     btn.href = `https://wa.me/${AGENCY_CONFIG.whatsappNumber}?text=${msg}`;
   });
+}
+
+
+/** Nav gets a soft shadow once the page scrolls */
+function initNavShadow() {
+  const h = document.querySelector('.site-header');
+  if (!h) return;
+  const f = () => h.classList.toggle('is-scrolled', window.scrollY > 10);
+  f();
+  window.addEventListener('scroll', f, { passive: true });
+}
+
+/** Sections fade up once as they enter view */
+function initReveal() {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const t = e.target;
+    t.classList.add('in');
+    io.unobserve(t);
+    setTimeout(() => t.classList.remove('reveal', 'in'), 1200);
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.section-head,.portfolio-card,.process-step,.cta-banner').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.setProperty('--rd', (i % 3) * 0.08 + 's');
+    io.observe(el);
+  });
+}
+
+/** Hero stats count up when they appear */
+function initCountUp() {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    const m = e.target.textContent.trim().match(/^(\d+)(.*)$/);
+    if (!m) return;
+    const end = +m[1], suf = m[2], t0 = performance.now(), dur = 1200;
+    const step = t => {
+      const p = Math.min((t - t0) / dur, 1);
+      e.target.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suf;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }), { threshold: 0.6 });
+  document.querySelectorAll('.metric-value').forEach(el => io.observe(el));
 }
