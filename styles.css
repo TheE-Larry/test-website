@@ -396,60 +396,7 @@ header.site-header {
   font-weight: 600;
 }
 
-/* Logos & Social Trust Bar (Alternating light tint section) */
-.trust-bar {
-  padding: 34px 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg-tint);
-}
 
-.trust-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-@media (min-width: 768px) {
-  .trust-inner {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-
-.trust-text {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--color-text-muted);
-  font-weight: 700;
-}
-
-.client-logos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-}
-
-.client-badge {
-  color: var(--color-text-secondary);
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.5px;
-  opacity: 0.75;
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.client-badge:hover {
-  opacity: 1;
-  color: var(--color-primary);
-}
 
 /* ========================================================
    FEATURE 1: FILTERABLE VISUAL PORTFOLIO
@@ -532,22 +479,23 @@ header.site-header {
 .card-preview {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #121826;
+  background: var(--color-bg-tint);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.card-preview svg, .card-preview img {
+.card-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
+  display: block;
   transition: transform 0.5s ease;
 }
 
-.portfolio-card:hover .card-preview svg,
 .portfolio-card:hover .card-preview img {
   transform: scale(1.05);
 }
@@ -807,87 +755,7 @@ header.site-header {
   box-shadow: 0 8px 26px rgba(10, 0, 255, 0.35);
 }
 
-/* Testimonials Grid */
-#testimonials {
-  background-color: var(--color-bg-page);
-}
 
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-@media (min-width: 768px) {
-  .testimonials-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.testimonial-card {
-  background: var(--color-bg-tint);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 32px 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-normal);
-}
-
-.testimonial-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-/* Stars Icon: Accent Red for vivid contrast */
-.stars {
-  color: var(--color-accent);
-  display: flex;
-  gap: 4px;
-  margin-bottom: 16px;
-  font-size: 1.15rem;
-}
-
-.testimonial-quote {
-  font-size: 0.98rem;
-  color: var(--color-text-main);
-  line-height: 1.6;
-  margin-bottom: 24px;
-  font-style: italic;
-}
-
-.client-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.client-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--color-primary-light);
-  border: 2px solid var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.9rem;
-  color: var(--color-primary);
-}
-
-.client-details h4 {
-  font-size: 0.96rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-}
-
-.client-details p {
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-}
 
 /* Process Section (Alternating Light Tint: #F4F5FF) */
 #process {
@@ -1022,13 +890,31 @@ header.site-header {
   justify-content: center;
   min-height: 300px;
   position: relative;
+  padding: 16px;
+  overflow: hidden;
 }
 
-.modal-media svg, .modal-media img {
+.modal-media img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 80vh;
   object-fit: contain;
-  max-height: 500px;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .modal-card {
+    max-height: 90vh;
+    overflow-y: auto;
+    flex-direction: column;
+  }
+  .modal-media {
+    min-height: auto;
+    padding: 12px;
+  }
+  .modal-media img {
+    max-height: 55vh;
+  }
 }
 
 .modal-details {
@@ -1088,32 +974,7 @@ header.site-header {
   margin-bottom: 24px;
 }
 
-.modal-specs {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 18px;
-  background: var(--color-bg-tint);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  margin-bottom: 24px;
-  font-size: 0.88rem;
-}
 
-.spec-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.spec-label {
-  color: var(--color-text-muted);
-  font-weight: 600;
-}
-
-.spec-val {
-  color: var(--color-text-main);
-  font-weight: 700;
-}
 
 /* Floating Action Button */
 .floating-whatsapp {
