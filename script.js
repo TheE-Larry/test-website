@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavShadow();
   initReveal();
   initCountUp();
+  initProjectForm();
 });
 
 /**
@@ -208,4 +209,51 @@ function initCountUp() {
     requestAnimationFrame(step);
   }), { threshold: 0.6 });
   document.querySelectorAll('.metric-value').forEach(el => io.observe(el));
+}
+
+
+/** Start-a-project form: builds the WhatsApp message */
+function initProjectForm() {
+  const form = document.getElementById('projectForm');
+  if (!form) return;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  $('needed').min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+  // "Order <package>" buttons in the pricing section pre-select that package
+  document.querySelectorAll('[data-pick]').forEach(btn => btn.addEventListener('click', () => {
+    const radio = [...form.querySelectorAll('input[name="package"]')].find(r => r.value === btn.dataset.pick);
+    if (radio) radio.checked = true;
+  }));
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const needed = d.get('needed')
+      ? new Date(d.get('needed') + 'T00:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      : 'Flexible';
+    const rows = [
+      ['Name', d.get('name').trim()],
+      ['Brand', d.get('brand').trim()],
+      ['Industry', d.get('industry').trim()],
+      ...(d.get('social').trim() ? [['Instagram', d.get('social').trim()]] : []),
+      ['Has a logo', d.get('logo')],
+      ['Package', d.get('package')],
+      ['Needed by', needed],
+      ['Project details', d.get('details').trim()]
+    ];
+    $('summary').innerHTML = rows.map(r => `<div><span>${r[0]}</span><strong>${esc(r[1])}</strong></div>`).join('');
+    const msg = `Hello ${AGENCY_CONFIG.agencyName}, I’d like to start a project:\n\n` + rows.map(r => `${r[0]}: ${r[1]}`).join('\n');
+    $('waBtn').href = `https://wa.me/${AGENCY_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+    $('formView').hidden = true;
+    $('thanksView').hidden = false;
+    $('start').scrollIntoView();
+  });
+
+  $('editLink').addEventListener('click', e => {
+    e.preventDefault();
+    $('thanksView').hidden = true;
+    $('formView').hidden = false;
+    $('start').scrollIntoView();
+  });
 }
